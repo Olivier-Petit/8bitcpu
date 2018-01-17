@@ -1,0 +1,5 @@
+/FPGA/db
+/FPGA/simulation
+/FPGA/*.bak
+/FPGA/output_files
+/FPGA/incremental_db
