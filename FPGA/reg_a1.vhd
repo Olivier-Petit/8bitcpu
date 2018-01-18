@@ -19,7 +19,7 @@ architecture a1 of reg is
 		end if;
 	end process;
 	
-	-- Outbut to bus
+	-- Output to bus
 	process(IN_ENABLE, OUT_ENABLE, val_internal)
 	begin
 		if IN_ENABLE = '0' and OUT_ENABLE = '1' then
