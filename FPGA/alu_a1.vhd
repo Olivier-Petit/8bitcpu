@@ -2,16 +2,33 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use ieee.numeric_std.all;
 
-entity alu is
-	port
-	(
-		A_IN : in std_logic_vector(7 downto 0);
-		B_IN : in std_logic_vector(7 downto 0);
-		SUB : in std_logic;
-		OUT_ENABLE : in std_logic;
-		BUS_R : out std_logic_vector(7 downto 0);
-		OUT_VAL : out std_logic_vector(7 downto 0);
-		CARRY : out std_logic
-	);
+architecture a1 of alu is
+	signal val_internal : unsigned(8 downto 0);
+	
+	begin
+	
+	-- Add/Subtract
+	process(A_IN, B_IN, SUB)
+	begin
+		if SUB = '1' then
+			val_internal <= unsigned(A_IN) - unsigned(B_IN);
+		else
+			val_internal <= unsigned(A_IN) + unsigned(B_IN);
+		end if;
+	end process;
+	
+	-- Permanent output
+	OUT_VAL <= std_logic_vector(val_internal(7 downto 0));
+	CARRY <= val_internal(8);
+	
+	-- Bus output
+	process(val_internal, OUT_ENABLE)
+	begin
+		if OUT_ENABLE = '1' then
+			BUS_R <= std_logic_vector(val_internal(7 downto 0));
+		else
+			BUS_R <= (others => 'Z');
+		end if;
+	end process;
 
-end entity alu;
+end architecture a1;
