@@ -17,18 +17,8 @@ architecture a1 of alu is
 		end if;
 	end process;
 	
-	-- Permanent output
+	-- Output
 	OUT_VAL <= std_logic_vector(val_internal(7 downto 0));
 	CARRY <= val_internal(8);
-	
-	-- Bus output
-	process(val_internal, OUT_ENABLE)
-	begin
-		if OUT_ENABLE = '1' then
-			BUS_R <= std_logic_vector(val_internal(7 downto 0));
-		else
-			BUS_R <= (others => 'Z');
-		end if;
-	end process;
 
 end architecture a1;

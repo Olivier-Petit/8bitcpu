@@ -8,8 +8,6 @@ entity alu is
 		A_IN : in std_logic_vector(7 downto 0);
 		B_IN : in std_logic_vector(7 downto 0);
 		SUB : in std_logic;
-		OUT_ENABLE : in std_logic;
-		BUS_R : out std_logic_vector(7 downto 0);
 		OUT_VAL : out std_logic_vector(7 downto 0);
 		CARRY : out std_logic
 	);

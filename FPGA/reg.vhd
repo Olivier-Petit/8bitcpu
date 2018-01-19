@@ -8,9 +8,8 @@ entity reg is
 		RESET : in std_logic;
 		CLOCK : in std_logic;
 		OUT_VAL : out std_logic_vector(7 downto 0);
-		BUS_R : inout std_logic_vector(7 downto 0);
-		IN_ENABLE : in std_logic;
-		OUT_ENABLE : in std_logic
+		BUS_R : in std_logic_vector(7 downto 0);
+		IN_ENABLE : in std_logic
 	);
 
 end entity reg;

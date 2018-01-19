@@ -19,16 +19,6 @@ architecture a1 of reg is
 		end if;
 	end process;
 	
-	-- Output to bus
-	process(IN_ENABLE, OUT_ENABLE, val_internal)
-	begin
-		if IN_ENABLE = '0' and OUT_ENABLE = '1' then
-			BUS_R <= val_internal;
-		else
-			BUS_R <= (others => 'Z');
-		end if;
-	end process;
-	
-	-- Always output value (used for ALU)
+	-- Output
 	OUT_VAL <= val_internal;
 end architecture a1;

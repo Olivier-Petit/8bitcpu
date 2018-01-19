@@ -23,16 +23,6 @@ architecture a1 of prog_counter is
 		end if;
 	end process;
 	
-	-- Always output val
+	-- Output val
 	OUT_VAL <= std_logic_vector(counter_int);
-	
-	-- Outbut to bus
-	process(IN_ENABLE, OUT_ENABLE, counter_int)
-	begin
-		if IN_ENABLE = '0' and OUT_ENABLE = '1' then
-			BUS_R <= std_logic_vector(counter_int);
-		else
-			BUS_R <= (others => 'Z');
-		end if;
-	end process;
 end architecture a1;
