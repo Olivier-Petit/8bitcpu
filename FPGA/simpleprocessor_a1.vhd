@@ -3,6 +3,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 use ieee.numeric_std.all;
 
 architecture a1 of simpleprocessor is
+	-- Clock
 	signal main_clock : std_logic;
 	signal clock_slow : std_logic;
 	signal clock_counter : integer range 0 to 50000000;
@@ -10,6 +11,12 @@ architecture a1 of simpleprocessor is
 	signal osc_or_manual_clock : std_logic;
 	
 	signal adc_0_in : std_logic_vector(11 downto 0);
+	
+	-- Processor control signals
+	signal MAI : std_logic;
+	signal RI : std_logic;
+	signal RO : std_logic;
+	signal BUS_R : std_logic_vector(7 downto 0);
 	
 	begin
 	
@@ -53,9 +60,8 @@ architecture a1 of simpleprocessor is
 			ADC_SCLCK => ADC_SCLCK,
 		
 			CHAN_0 => adc_0_in
-		);
-		
-	LED(7 downto 1) <= adc_0_in(11 downto 5);
+		);	
+	--LED(7 downto 1) <= adc_0_in(11 downto 5);
 	LED(0) <= main_clock;
 	
 end architecture a1;
