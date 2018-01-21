@@ -42,6 +42,14 @@ architecture a0 of instruction_decoder is
 					else
 						CONTROL_WORD_OUT <= (others => '0');
 					end if;
+				when "0011" => -- STA
+					if instr_count = 2 then 
+						CONTROL_WORD_OUT <= (IO => '1', ADDRI => '1', others => '0');
+					elsif instr_count = 3 then
+						CONTROL_WORD_OUT <= (AO => '1', MI => '1', others => '0');
+					else
+						CONTROL_WORD_OUT <= (others => '0');
+					end if;
 				when others =>
 					CONTROL_WORD_OUT <= (others => '0');
 			end case;
