@@ -36,12 +36,14 @@ architecture a0 of instruction_decoder is
 					else
 						CONTROL_WORD_OUT <= (others => '0');
 					end if;
+					
 				when "0010" => -- LDI
 					if instr_count= 2 then
 						CONTROL_WORD_OUT <= (IO => '1', AI => '1', others => '0');
 					else
 						CONTROL_WORD_OUT <= (others => '0');
 					end if;
+					
 				when "0011" => -- STA
 					if instr_count = 2 then 
 						CONTROL_WORD_OUT <= (IO => '1', ADDRI => '1', others => '0');
@@ -50,6 +52,7 @@ architecture a0 of instruction_decoder is
 					else
 						CONTROL_WORD_OUT <= (others => '0');
 					end if;
+					
 				when "0100" => -- ADD
 					if instr_count = 2 then 
 						CONTROL_WORD_OUT <= (IO => '1', ADDRI => '1', others => '0');
@@ -60,6 +63,7 @@ architecture a0 of instruction_decoder is
 					else
 						CONTROL_WORD_OUT <= (others => '0');
 					end if;
+					
 				when "0101" => -- SUB
 					if instr_count = 2 then 
 						CONTROL_WORD_OUT <= (IO => '1', ADDRI => '1', others => '0');
@@ -67,6 +71,13 @@ architecture a0 of instruction_decoder is
 						CONTROL_WORD_OUT <= (MO => '1', BI => '1', others => '0');
 					elsif instr_count = 4 then
 						CONTROL_WORD_OUT <= (AI => '1', SUB => '1', others => '0');
+					else
+						CONTROL_WORD_OUT <= (others => '0');
+					end if;
+					
+				when "1011" => -- JUMP
+					if instr_count = 2 then 
+						CONTROL_WORD_OUT <= (IO => '1', PCI => '1', others => '0');
 					else
 						CONTROL_WORD_OUT <= (others => '0');
 					end if;
