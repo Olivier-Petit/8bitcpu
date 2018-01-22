@@ -70,6 +70,11 @@ architecture a0 of instruction_decoder is
 					else
 						CONTROL_WORD_OUT <= (others => '0');
 					end if;
+					
+				when "1111" => -- HALT
+					if instr_count = 2 then
+						CONTROL_WORD_OUT <= (HALT => '1', others => '0');
+					end if;
 				when others =>
 					CONTROL_WORD_OUT <= (others => '0');
 			end case;
