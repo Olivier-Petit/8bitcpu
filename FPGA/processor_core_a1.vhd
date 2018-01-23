@@ -15,6 +15,7 @@ architecture a1 of processor_core is
 	signal ram_val_int : std_logic_vector(7 downto 0);
 	signal reg_instr_int : std_logic_vector(7 downto 0);
 	signal control_int : control_word;
+	signal micro_instr_count_int : std_logic_vector(2 downto 0);
 	signal clock_act_int : std_logic;
 	signal clock_int : std_logic;
 	
@@ -76,7 +77,54 @@ architecture a1 of processor_core is
 			BUS_R => bus_int,
 			IN_ENABLE => control_int.II
 		);
+	
+	reg_out_r : entity work.reg(a1)
+		port map(
+			RESET => RESET,
+			CLOCK => clock_int,
+			OUT_VAL => reg_out_int,
+			BUS_R => bus_int,
+			IN_ENABLE => control_int.DO
+		);
 		
+	-- ALU
+	alu : entity work.alu(a1)
+		port map(
+			A_IN => reg_a_int,
+			B_IN => reg_b_int,
+			SUB => control_int.SUB,
+			OUT_VAL => alu_out_int,
+			CARRY => carry_int
+		);
+		
+	-- RAM
+	ram : entity work.ram(a1)
+		port map(
+			CLOCK => clock_int,
+			RESET => RESET,
+			ADDR_IN => control_int.ADDRI,
+			ADDR_OUT => ram_addr_int,
+			WRITE_ENABLE => control_int.MI,
+			MEM_OUT => ram_val_int,
+			BUS_R => bus_int,
+			
+			PROGRAMING => PROGRAM_MODE,
+			PROG_ADDR => PROGRAM_ADDR,
+			PROG_VAL => PROGRAM_VAL,
+			PROG_WRITE => PROGRAM_WRITE
+		
+		);
+		
+	-- Instruction decoder
+	instr_decode : entity work.instruction_decoder(a0)
+		port map(
+			CLOCK => clock_int,
+			RESET => reset,
+			INSTR => reg_instr_int,
+			
+			MICRO_INSTR_COUNT => micro_instr_count_int,
+			CONTROL_WORD_OUT=> control_int
+		);
 	
 --		HALT : std_logic;
 --		AI : std_logic; -- A register in
