@@ -12,12 +12,6 @@ architecture a1 of simpleprocessor is
 	
 	signal adc_0_in : std_logic_vector(11 downto 0);
 	
-	-- Processor control signals
-	signal MAI : std_logic;
-	signal RI : std_logic;
-	signal RO : std_logic;
-	signal BUS_R : std_logic_vector(7 downto 0);
-	
 	begin
 	
 	osc_or_manual_clock <= (clock_slow and CLOCK_RUN) or not CLOCK_STEP;
@@ -49,7 +43,7 @@ architecture a1 of simpleprocessor is
 		end if;
 	end process;
 	
-	-- ADC instanciation
+	-- ADC instantiation
 	adc : entity work.adc(a1)
 		port map(
 			RESET => RESET, 
@@ -61,6 +55,30 @@ architecture a1 of simpleprocessor is
 		
 			CHAN_0 => adc_0_in
 		);	
+		
+	-- CPU core 
+	core : entity work.processor_core(a1)
+		port map
+		(
+			RESET => RESET,
+			CLOCK => main_clock,
+			PROGRAM_MODE => PROG_EN,
+			PROGRAM_ADDR => PROG_ADDR,
+			PROGRAM_VAL=> PROG_VAL,
+			PROGRAM_WRITE => PROG_W,
+			
+			REG_A => open,
+			REG_B => open,
+			REG_OUT => open,
+			ALU_OUT => open,
+			CARRY => open,
+			RAM_ADDR => open,
+			RAM_VAL => open,
+			REG_INSTR => open,
+			CONTROL => open,
+			MICRO_INSTR_COUNT => open,
+			CLOCK_ACT => open
+		);
 	--LED(7 downto 1) <= adc_0_in(11 downto 5);
 	LED(0) <= main_clock;
 	

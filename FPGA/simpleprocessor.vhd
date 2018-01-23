@@ -18,7 +18,14 @@ entity simpleprocessor is
 		ADC_SCLCK : out std_logic;
 		
 		-- LEDS
-		LED : out std_logic_vector(7 downto 0)
+		LED : out std_logic_vector(7 downto 0);
+		LEDSTRIP : out std_logic;
+		
+		-- PROGRAMING
+		PROG_EN : in std_logic;
+		PROG_W : in std_logic;
+		PROG_ADDR : in std_logic_vector(3 downto 0);
+		PROG_VAL : in std_logic_vector(7 downto 0)
 	);
 
 end entity simpleprocessor;
