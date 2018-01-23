@@ -97,6 +97,17 @@ architecture a1 of processor_core is
 			CARRY => carry_int
 		);
 		
+	-- Program counter
+	pc : entity work.prog_counter(a1)
+		port map(
+			CLOCK => clock_int,
+			RESET => RESET,
+			IN_ENABLE => control_int.PCI,
+			COUNTER_ENABLE => control_int.PCE,
+			BUS_R => bus_int(3 downto 0),
+			OUT_VAL => pc_int
+		);
+		
 	-- RAM
 	ram : entity work.ram(a1)
 		port map(
@@ -132,6 +143,7 @@ architecture a1 of processor_core is
 	REG_OUT <= reg_out_int;
 	ALU_OUT <= alu_out_int;
 	CARRY <= carry_int;
+	PC_OUT <= pc_int;
 	RAM_ADDR <= ram_addr_int;
 	RAM_VAL <= ram_val_int;
 	REG_INSTR <= reg_instr_int;
