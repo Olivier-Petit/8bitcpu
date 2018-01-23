@@ -11,7 +11,7 @@ entity ws2812b_strip is
 	
 	port(
 		RESET : in std_logic;
-		CLOCK : in std_logic;
+		CLOCK_50 : in std_logic;
 		ENABLE : in std_logic_vector(N-1 downto 0);
 		COLOR : in ws2812b_color_type(0 to N-1);
 		OUTPUT : out std_logic
