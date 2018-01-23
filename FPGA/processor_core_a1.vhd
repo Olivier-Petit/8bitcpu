@@ -125,40 +125,18 @@ architecture a1 of processor_core is
 			MICRO_INSTR_COUNT => micro_instr_count_int,
 			CONTROL_WORD_OUT=> control_int
 		);
-	
---		HALT : std_logic;
---		AI : std_logic; -- A register in
---		AO : std_logic; -- A register out
---		BI : std_logic; -- B register in
---		BO : std_logic; -- B register out
---		PCO : std_logic; -- Program counter out
---		PCI : std_logic; -- Program counter in
---		PCE : std_logic; -- Program counter enable
---		ADDRI : std_logic; -- Memory address register in
---		MI : std_logic; -- Memory in (write)
---		MO : std_logic; -- Memory out
---		EO : std_logic; -- ALU out
---		SUB : std_logic; -- ALU substract
---		II : std_logic; -- Instruction register in
---		IO : std_logic; -- Instruction register out
---		DO : std_logic; -- Display out
 		
---	port(
---		RESET : in std_logic;
---		CLOCK : in std_logic;
---		PROGRAM_MODE : in std_logic;
---		PROGRAM_ADDR : in std_logic_vector(3 downto 0);
---		PROGRAM_VAL : in std_logic_vector(7 downto 0);
---		
---		REG_A : out std_logic_vector(7 downto 0);
---		REG_B : out std_logic_vector(7 downto 0);
---		REG_OUT : out std_logic_vector(7 downto 0);
---		ALU_OUT : out std_logic_vector(7 downto 0);
---		CARRY : out std_logic;
---		RAM_ADDR : out std_logic_vector(3 downto 0);
---		RAM_VAL : out std_logic_vector(7 downto 0);
---		REG_INSTR : out std_logic_vector(7 downto 0);
---		CONTROL : out control_word;
---		CLOCK_ACT : out std_logic
---	);
+	-- Output signals
+	REG_A <= reg_a_int;
+	REG_B <= reg_b_int;
+	REG_OUT <= reg_out_int;
+	ALU_OUT <= alu_out_int;
+	CARRY <= carry_int;
+	RAM_ADDR <= ram_addr_int;
+	RAM_VAL <= ram_val_int;
+	REG_INSTR <= reg_instr_int;
+	CONTROL <= control_int;
+	MICRO_INSTR_COUNT <= micro_instr_count_int;
+	CLOCK_ACT <= clock_int;
+
 end architecture a1;

@@ -17,7 +17,6 @@ entity processor_core is
 		REG_OUT : out std_logic_vector(7 downto 0);
 		ALU_OUT : out std_logic_vector(7 downto 0);
 		CARRY : out std_logic;
-		SUB : out std_logic;
 		RAM_ADDR : out std_logic_vector(3 downto 0);
 		RAM_VAL : out std_logic_vector(7 downto 0);
 		REG_INSTR : out std_logic_vector(7 downto 0);
