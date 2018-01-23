@@ -41,7 +41,7 @@ architecture a1 of ram is
 	MEM_OUT <= memory(to_integer(unsigned(mem_addr)));
 	
 	-- Selects between main clock and manual programing clock
-	process(CLOCK, PROGRAMING, PROG_WRITE)
+	process(CLOCK, PROGRAMING, PROG_WRITE, WRITE_ENABLE)
 	begin
 		if PROGRAMING = '1' then
 			write_clock <= PROG_WRITE;
