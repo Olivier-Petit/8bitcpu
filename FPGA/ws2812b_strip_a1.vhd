@@ -11,21 +11,22 @@ use work.wb2812b_a1_pkg.all;
 architecture a1 of ws2812b_strip is
 	-- 24 bit colors, in GRB format, MSB first
 	constant colors : colors_memory_type := (
-		"111111111111111111111111", -- White
-		"000000001111111100000000", -- Red
-		"000000000000000011111111", -- Green
-		"111111110000000000000000", -- Blue
-		"000000001111111111111111", -- Yellow
-		"111111111111111100000000", -- Purple
-		"111111110000000011111111" -- Cyan
+		"111100001111000011110000", -- White
+		"000000001111000000000000", -- Red
+		"000000000000000011110000", -- Green
+		"111100000000000000000000", -- Blue
+		"000000001111000011110000", -- Yellow
+		"111100001111000000000000", -- Purple
+		"111100000000000011110000" -- Cyan
 	);
 	
 	signal bit_number : integer range 0 to 23; -- Bit currently being tranmited
 	signal led_number : integer range 0 to N - 1; -- Led being transmited
 	signal clock_2_5 : std_logic; -- 10Mhz clock
 	signal clock_counter : unsigned(3 downto 0); -- Counter to generate clock
-	signal bit_counter : unsigned(1 downto 0); -- For each bit, will count from 0 to 3 to generate the appropriate output
+	signal bit_counter : unsigned(7 downto 0);
 	signal reset_mode : std_logic; -- Flag for strip reset state
+	signal out_int : std_logic;
 	
 	begin
 	
@@ -72,9 +73,9 @@ architecture a1 of ws2812b_strip is
 						bit_number <= bit_number + 1;
 					end if;
 					
-					if led_number = N - 1 and bit_number = 23 then
-						led_number <= 0;
+					if led_number = (N - 1) and bit_number = 23 then
 						reset_mode <= '1';
+						led_number <= 0;
 					end if;
 				else
 					bit_counter <= bit_counter + 1;
@@ -84,11 +85,11 @@ architecture a1 of ws2812b_strip is
 	end process;
 	
 	-- Generate output signal
-	process(reset_mode, bit_number, bit_counter, ENABLE, COLOR)
+	process(reset_mode, bit_number, bit_counter, led_number, ENABLE, COLOR)
 	variable bit_to_transmit : std_logic;
 	begin
-		if reset_mode <= '1' then
-			OUTPUT <= '0';
+		if reset_mode = '1' then
+			out_int <= '0';
 		else
 			if ENABLE(led_number) = '0' then
 				bit_to_transmit := '0';
@@ -97,19 +98,21 @@ architecture a1 of ws2812b_strip is
 			end if;
 			
 			if bit_to_transmit = '0' then
-				if to_integer(bit_counter) < 1 then
-					OUTPUT <= '1';
+				if bit_counter = "0" then
+					out_int <= '1';
 				else
-					OUTPUT <= '0';
+					out_int <= '0';
 				end if;
 			else
-				if to_integer(bit_counter) < 2 then
-					OUTPUT <= '1';
+				if bit_counter = "0" or bit_counter = "1" then
+					out_int <= '1';
 				else
-					OUTPUT <= '0';
+					out_int <= '0';
 				end if;
 			end if;
 		end if;
 	end process;
+	
+	OUTPUT <= out_int;
 
 end architecture a1;
