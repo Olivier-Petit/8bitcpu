@@ -24,5 +24,13 @@ package types is
 	end record;
 	
 	type ws2812b_color_type is array(natural range <>) of std_logic_vector(2 downto 0);
+	
+	constant WS_WHITE 	: std_logic_vector(2 downto 0) := "000";
+	constant WS_RED 		: std_logic_vector(2 downto 0) := "001";
+	constant WS_GREEN 	: std_logic_vector(2 downto 0) := "010";
+	constant WS_BLUE 		: std_logic_vector(2 downto 0) := "011";
+	constant WS_YELLOW 	: std_logic_vector(2 downto 0) := "100";
+	constant WS_PURPLE	: std_logic_vector(2 downto 0) := "101";
+	constant WS_CYAN 		: std_logic_vector(2 downto 0) := "110";
 
 end package types ;

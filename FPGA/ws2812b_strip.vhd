@@ -27,3 +27,5 @@ end entity ws2812b_strip;
 -- 4 : yellow
 -- 5 : purple
 -- 6 : cyan
+
+
