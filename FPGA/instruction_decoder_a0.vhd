@@ -59,7 +59,7 @@ architecture a0 of instruction_decoder is
 					elsif instr_count = 3 then
 						CONTROL_WORD_OUT <= (MO => '1', BI => '1', others => '0');
 					elsif instr_count = 4 then
-						CONTROL_WORD_OUT <= (AI => '1', others => '0');
+						CONTROL_WORD_OUT <= (EO => '1', AI => '1', others => '0');
 					else
 						CONTROL_WORD_OUT <= (others => '0');
 					end if;
@@ -70,7 +70,7 @@ architecture a0 of instruction_decoder is
 					elsif instr_count = 3 then
 						CONTROL_WORD_OUT <= (MO => '1', BI => '1', others => '0');
 					elsif instr_count = 4 then
-						CONTROL_WORD_OUT <= (AI => '1', SUB => '1', others => '0');
+						CONTROL_WORD_OUT <= (EO => '1', AI => '1', SUB => '1', others => '0');
 					else
 						CONTROL_WORD_OUT <= (others => '0');
 					end if;
