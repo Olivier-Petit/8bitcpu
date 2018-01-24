@@ -14,6 +14,7 @@ entity ws2812b_strip is
 		CLOCK_50 : in std_logic;
 		ENABLE : in std_logic_vector(N-1 downto 0);
 		COLOR : in ws2812b_color_type(0 to N-1);
+		BRIGHTNESS : in std_logic_vector(2 downto 0);
 		OUTPUT : out std_logic
 	);
 
