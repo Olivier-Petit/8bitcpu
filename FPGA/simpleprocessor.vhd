@@ -1,6 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use ieee.numeric_std.all;
+use work.types.all;
 
 entity simpleprocessor is
 	port
@@ -20,6 +21,10 @@ entity simpleprocessor is
 		-- LEDS
 		LED : out std_logic_vector(7 downto 0);
 		LEDSTRIP : out std_logic;
+		
+		-- SEVEN SEGMENT
+		SV_DIGIT : out std_logic_vector(3 downto 0);
+		SV_SEG : out seven_seg_segments;
 		
 		-- PROGRAMING
 		PROG_EN : in std_logic;

@@ -27,7 +27,7 @@ begin
 	begin
 		if RESET = '0' then
 			dig_counter <= 0;
-			cycle_counter <= 0;
+			cycle_counter <= 1;
 		elsif rising_edge(clock_100k) then
 		
 			if dig_counter = (N - 1) then
@@ -70,7 +70,8 @@ begin
 			dig_others := '1';
 		end if;
 		
-		OUTPUT_DIG <= (dig_counter => dig_enable, others => dig_others);
+		OUTPUT_DIG <= (others => dig_others);
+		OUTPUT_DIG(dig_counter) <= dig_enable;
 		
 		-- Enable segments
 		if COMON_ANODE = '1' then
@@ -89,11 +90,11 @@ begin
 			when "0011" => -- 3
 				OUTPUT_SEG <= (E => not seg_enable, F => not seg_enable, others => seg_enable);
 			when "0100" => -- 4
-				OUTPUT_SEG <= (A => not seg_enable, E => not seg_enable, others => seg_enable);
+				OUTPUT_SEG <= (A => not seg_enable, D => not seg_enable, E => not seg_enable, others => seg_enable);
 			when "0101" => -- 5
-				OUTPUT_SEG <= (C => not seg_enable, E => not seg_enable, others => seg_enable);
+				OUTPUT_SEG <= (B => not seg_enable, E => not seg_enable, others => seg_enable);
 			when "0110" => -- 6
-				OUTPUT_SEG <= (C => not seg_enable, others => seg_enable);
+				OUTPUT_SEG <= (B => not seg_enable, others => seg_enable);
 			when "0111" => -- 7
 				OUTPUT_SEG <= (A => seg_enable, B => seg_enable, C => seg_enable, others => not seg_enable);
 			when "1000" => -- 8
@@ -105,9 +106,9 @@ begin
 			when "1011" => -- b
 				OUTPUT_SEG <= (A => not seg_enable, B => not seg_enable, others => seg_enable);
 			when "1100" => -- c
-				OUTPUT_SEG <= (A=> not seg_enable, B => not seg_enable, G => not seg_enable, others => seg_enable);
+				OUTPUT_SEG <= (B => not seg_enable, C => not seg_enable, G => not seg_enable, others => seg_enable);
 			when "1101" => -- d
-				OUTPUT_SEG <= (A => not seg_enable, G => not seg_enable, others => seg_enable);
+				OUTPUT_SEG <= (A => not seg_enable, F => not seg_enable, others => seg_enable);
 			when "1110" => -- e
 				OUTPUT_SEG <= (B => not seg_enable, C => not seg_enable, others => seg_enable);
 			when "1111" => -- f
@@ -117,19 +118,3 @@ begin
 	end process;
 	
 end architecture a1;
-
---entity seven_seg_driver is
---	generic(
---		N : integer;
---		COMON_ANODE : std_logic
---	);
---	
---	port(
---		RESET : in std_logic;
---		CLOCK_50 : in std_logic;
---		ENABLE : in std_logic_vector(N-1 downto 0);
---		INPUT : in seven_seg_driver_input_type(0 to N-1);
---		OUTPUT_DIG : out std_logic_vector(N-1 downto 0);
---		OUTPUT_SEG : out seven_seg_segements
---	);
---end entity seven_seg_driver;
