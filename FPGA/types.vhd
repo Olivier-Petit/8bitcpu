@@ -32,5 +32,19 @@ package types is
 	constant WS_YELLOW 	: std_logic_vector(2 downto 0) := "100";
 	constant WS_PURPLE	: std_logic_vector(2 downto 0) := "101";
 	constant WS_CYAN 		: std_logic_vector(2 downto 0) := "110";
-
+	
+	
+	type seven_seg_driver_input_type is array(natural range<>) of std_logic_vector(3 downto 0);
+	
+	type seven_seg_segments is 
+	record
+		A : std_logic;
+		B : std_logic;
+		C : std_logic;
+		D : std_logic;
+		E : std_logic;
+		F : std_logic;
+		G : std_logic;
+	end record;
+	
 end package types ;
