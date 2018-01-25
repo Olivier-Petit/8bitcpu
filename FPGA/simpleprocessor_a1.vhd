@@ -133,7 +133,7 @@ architecture a1 of simpleprocessor is
 	(
 		RESET => RESET,
 		CLOCK_50 => CLOCK_50,
-		ENABLE => "1111",
+		ENABLE => "0111",
 		INPUT => seven_seg_in,
 		BRIGHTNESS => "111", --std_logic_vector(led_enable)(3 downto 1),
 		OUTPUT_DIG => SV_DIGIT,
