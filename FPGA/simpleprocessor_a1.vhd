@@ -17,6 +17,7 @@ architecture a1 of simpleprocessor is
 	signal led_color : ws2812b_color_type(0 to 10);
 	
 	signal seven_seg_in : seven_seg_driver_input_type(0 to 3);
+	signal count_bcd : std_logic_vector(11 downto 0);
 	
 	begin
 	
@@ -139,11 +140,21 @@ architecture a1 of simpleprocessor is
 		OUTPUT_SEG => SV_SEG
 	);
 	
+	bcd : entity work.bin_to_bcd(a1)
+	port map
+	(
+		RESET => RESET,
+		CLOCK_50 => CLOCK_50,
+		BIN => std_logic_vector(led_enable)(7 downto 0),
+		BCD => count_bcd
+	);
+	
 	seven_seg_in <= (
-			3 => std_logic_vector(led_enable)(15 downto 12), 
-			2 => std_logic_vector(led_enable)(11 downto 8),
-			1 => std_logic_vector(led_enable)(7 downto 4),
-			0 => std_logic_vector(led_enable)(3 downto 0));
+		3 => "0000", --std_logic_vector(led_enable)(15 downto 12), 
+		2 => count_bcd(11 downto 8),
+		1 => count_bcd(7 downto 4),
+		0 => count_bcd(3 downto 0)
+	);
 	--LED(7 downto 1) <= adc_0_in(11 downto 5);
 	LED(0) <= main_clock;
 	
