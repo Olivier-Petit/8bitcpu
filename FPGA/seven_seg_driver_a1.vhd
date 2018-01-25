@@ -84,19 +84,19 @@ begin
 			when "0000" => -- 0
 				OUTPUT_SEG <= (G => not seg_enable, others => seg_enable);
 			when "0001" => -- 1
-				OUTPUT_SEG <= (B => seg_enable, C => seg_enable, others => not seg_enable);
+				OUTPUT_SEG <= (B|C => seg_enable, others => not seg_enable);
 			when "0010" => -- 2
-				OUTPUT_SEG <= (C => not seg_enable, F => not seg_enable, others => seg_enable);
+				OUTPUT_SEG <= (C|F => not seg_enable, others => seg_enable);
 			when "0011" => -- 3
-				OUTPUT_SEG <= (E => not seg_enable, F => not seg_enable, others => seg_enable);
+				OUTPUT_SEG <= (E|F => not seg_enable, others => seg_enable);
 			when "0100" => -- 4
-				OUTPUT_SEG <= (A => not seg_enable, D => not seg_enable, E => not seg_enable, others => seg_enable);
+				OUTPUT_SEG <= (A|D|E => not seg_enable, others => seg_enable);
 			when "0101" => -- 5
-				OUTPUT_SEG <= (B => not seg_enable, E => not seg_enable, others => seg_enable);
+				OUTPUT_SEG <= (B|E => not seg_enable, others => seg_enable);
 			when "0110" => -- 6
 				OUTPUT_SEG <= (B => not seg_enable, others => seg_enable);
 			when "0111" => -- 7
-				OUTPUT_SEG <= (A => seg_enable, B => seg_enable, C => seg_enable, others => not seg_enable);
+				OUTPUT_SEG <= (A|B|C => seg_enable, others => not seg_enable);
 			when "1000" => -- 8
 				OUTPUT_SEG <= (others => seg_enable);
 			when "1001" => -- 9
@@ -104,15 +104,15 @@ begin
 			when "1010" => -- a
 				OUTPUT_SEG <= (D => not seg_enable, others => seg_enable);
 			when "1011" => -- b
-				OUTPUT_SEG <= (A => not seg_enable, B => not seg_enable, others => seg_enable);
+				OUTPUT_SEG <= (A|B => not seg_enable, others => seg_enable);
 			when "1100" => -- c
-				OUTPUT_SEG <= (B => not seg_enable, C => not seg_enable, G => not seg_enable, others => seg_enable);
+				OUTPUT_SEG <= (B|C|G => not seg_enable, others => seg_enable);
 			when "1101" => -- d
-				OUTPUT_SEG <= (A => not seg_enable, F => not seg_enable, others => seg_enable);
+				OUTPUT_SEG <= (A|F => not seg_enable, others => seg_enable);
 			when "1110" => -- e
-				OUTPUT_SEG <= (B => not seg_enable, C => not seg_enable, others => seg_enable);
+				OUTPUT_SEG <= (B|C => not seg_enable, others => seg_enable);
 			when "1111" => -- f
-				OUTPUT_SEG <= (B => not seg_enable, C => not seg_enable, D => not seg_enable, others => seg_enable);
+				OUTPUT_SEG <= (B|C|D => not seg_enable, others => seg_enable);
 
 		end case;
 	end process;
