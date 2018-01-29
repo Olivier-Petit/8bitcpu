@@ -4,6 +4,7 @@ use ieee.numeric_std.all;
 
 architecture a0 of instruction_decoder is
 	signal instr_count : unsigned(2 downto 0);
+	signal control_word_int : control_word;
 	
 	begin
 	
@@ -13,7 +14,11 @@ architecture a0 of instruction_decoder is
 		if RESET = '0' then
 			instr_count <= (others => '0');
 		elsif falling_edge(CLOCK) then -- Falling edge to avoid race condition with all registers
-			instr_count <= instr_count + 1;
+			if control_word_int.INEXT = '1' then
+				instr_count <= (others => '0');
+			else
+				instr_count <= instr_count + 1;
+			end if;
 		end if;
 	end process;
 	
@@ -23,92 +28,94 @@ architecture a0 of instruction_decoder is
 	process(instr_count, INSTR)
 	begin
 		if instr_count = 0 then
-			CONTROL_WORD_OUT <= (PCO => '1', ADDRI => '1', others => '0');
+			control_word_int <= (PCO|ADDRI => '1', others => '0');
 		elsif instr_count = 1 then
-			CONTROL_WORD_OUT <= (MO => '1', II => '1', PCE => '1', others => '0');
+			control_word_int <= (MO|II|PCE => '1', others => '0');
 		else
 			case INSTR(7 downto 4) is
 				when "0001" => -- LDA
 					if instr_count = 2 then 
-						CONTROL_WORD_OUT <= (IO => '1', ADDRI => '1', others => '0');
+						control_word_int <= (IO|ADDRI => '1', others => '0');
 					elsif instr_count = 3 then
-						CONTROL_WORD_OUT <= (MO => '1', AI => '1', others => '0');
+						control_word_int <= (MO|AI|INEXT => '1', others => '0');
 					else
-						CONTROL_WORD_OUT <= (others => '0');
+						control_word_int <= (others => '0');
 					end if;
 					
 				when "0010" => -- LDI
 					if instr_count= 2 then
-						CONTROL_WORD_OUT <= (IO => '1', AI => '1', others => '0');
+						control_word_int <= (IO|AI|INEXT => '1', others => '0');
 					else
-						CONTROL_WORD_OUT <= (others => '0');
+						control_word_int <= (others => '0');
 					end if;
 					
 				when "0011" => -- STA
 					if instr_count = 2 then 
-						CONTROL_WORD_OUT <= (IO => '1', ADDRI => '1', others => '0');
+						control_word_int <= (IO|ADDRI => '1', others => '0');
 					elsif instr_count = 3 then
-						CONTROL_WORD_OUT <= (AO => '1', MI => '1', others => '0');
+						control_word_int <= (AO|MI|INEXT => '1', others => '0');
 					else
-						CONTROL_WORD_OUT <= (others => '0');
+						control_word_int <= (others => '0');
 					end if;
 					
 				when "0100" => -- ADD
 					if instr_count = 2 then 
-						CONTROL_WORD_OUT <= (IO => '1', ADDRI => '1', others => '0');
+						control_word_int <= (IO|ADDRI => '1', others => '0');
 					elsif instr_count = 3 then
-						CONTROL_WORD_OUT <= (MO => '1', BI => '1', others => '0');
+						control_word_int <= (MO|BI => '1', others => '0');
 					elsif instr_count = 4 then
-						CONTROL_WORD_OUT <= (EO => '1', AI => '1', others => '0');
+						control_word_int <= (EO|AI|INEXT => '1', others => '0');
 					else
-						CONTROL_WORD_OUT <= (others => '0');
+						control_word_int <= (others => '0');
 					end if;
 					
 				when "0101" => -- SUB
 					if instr_count = 2 then 
-						CONTROL_WORD_OUT <= (IO => '1', ADDRI => '1', others => '0');
+						control_word_int <= (IO|ADDRI => '1', others => '0');
 					elsif instr_count = 3 then
-						CONTROL_WORD_OUT <= (MO => '1', BI => '1', others => '0');
+						control_word_int <= (MO|BI => '1', others => '0');
 					elsif instr_count = 4 then
-						CONTROL_WORD_OUT <= (EO => '1', AI => '1', SUB => '1', others => '0');
+						control_word_int <= (EO|AI|SUB|INEXT => '1', others => '0');
 					else
-						CONTROL_WORD_OUT <= (others => '0');
+						control_word_int <= (others => '0');
 					end if;
 					
 				when "1011" => -- JUMP
 					if instr_count = 2 then 
-						CONTROL_WORD_OUT <= (IO => '1', PCI => '1', others => '0');
+						control_word_int <= (IO|PCI|INEXT => '1', others => '0');
 					else
-						CONTROL_WORD_OUT <= (others => '0');
+						control_word_int <= (others => '0');
 					end if;
 					
 				when "1100" => -- IN
 					if instr_count = 2 then
-						CONTROL_WORD_OUT <= (UWAIT => '1', others => '0');
+						control_word_int <= (UWAIT => '1', others => '0');
 					elsif instr_count = 3 then
-						CONTROL_WORD_OUT <= (DI|AI => '1', others => '0');
+						control_word_int <= (DI|AI|INEXT => '1', others => '0');
 					else
-						CONTROL_WORD_OUT <= (others => '0');
+						control_word_int <= (others => '0');
 					end if;
 					
 				when "1101" => -- OUT
 					if instr_count = 2 then
-						CONTROL_WORD_OUT <= (AO => '1', DO => '1', others => '0');
+						control_word_int <= (AO|DO|INEXT => '1', others => '0');
 					else
-						CONTROL_WORD_OUT <= (others => '0');
+						control_word_int <= (others => '0');
 					end if;
 					
 				when "1111" => -- HALT
 					if instr_count = 2 then
-						CONTROL_WORD_OUT <= (HALT => '1', others => '0');
+						control_word_int <= (HALT => '1', others => '0');
 					else
-						CONTROL_WORD_OUT <= (others => '0');
+						control_word_int <= (others => '0');
 					end if;
 				when others =>
-					CONTROL_WORD_OUT <= (others => '0');
+					control_word_int <= (others => '0');
 			end case;
 		end if;
 	end process;
+	
+	CONTROL_WORD_OUT <= control_word_int;
 
 --	PORT(
 --		CLOCK : in std_logic;

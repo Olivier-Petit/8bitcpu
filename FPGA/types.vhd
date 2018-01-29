@@ -23,6 +23,7 @@ package types is
 		DO : std_logic; -- Display out
 		DI : std_logic; -- Data in
 		UWAIT : std_logic; -- User Wait
+		INEXT : std_logic; -- Next instruction
 	end record;
 	
 	type ws2812b_color_type is array(natural range <>) of std_logic_vector(2 downto 0);
