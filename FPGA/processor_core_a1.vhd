@@ -16,20 +16,22 @@ architecture a1 of processor_core is
 	signal reg_instr_int : std_logic_vector(7 downto 0);
 	signal control_int : control_word;
 	signal micro_instr_count_int : std_logic_vector(2 downto 0);
-	signal clock_act_int : std_logic;
+	signal clock_dis_int : std_logic;
 	signal clock_int : std_logic;
 	
 	begin
 	
 	-- Clock/Halt signal handling
-	clock_int <= CLOCK and clock_act_int;
-	clock_act_int <= not control_int.HALT;
+	clock_int <= CLOCK and not clock_dis_int;
+	
+	-- Clock is disabled if halted or waiting and user is not pushing contiue
+	clock_dis_int <= control_int.HALT or (control_int.UWAIT and (not UCONT));
 	
 	-- Bus multiplexing
 	process(
 		control_int.AO, control_int.BO, control_int.PCO, 
 		control_int.MO, control_int.EO, control_int.IO,
-		reg_a_int, reg_b_int, alu_out_int, pc_int, ram_val_int, reg_instr_int)
+		reg_a_int, reg_b_int, alu_out_int, pc_int, ram_val_int, reg_instr_int, UIN)
 	begin
 		if control_int.AO = '1' then
 			bus_int <= reg_a_int;
@@ -45,6 +47,8 @@ architecture a1 of processor_core is
 		elsif control_int.IO = '1' then
 			bus_int(7 downto 4) <= (others => '0');
 			bus_int(3 downto 0) <= reg_instr_int(3 downto 0);
+		elsif control_int.DI = '1' then
+			bus_int <= UIN;
 		else
 			bus_int <= (others => '0');
 		end if;

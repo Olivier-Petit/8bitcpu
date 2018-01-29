@@ -82,6 +82,15 @@ architecture a0 of instruction_decoder is
 						CONTROL_WORD_OUT <= (others => '0');
 					end if;
 					
+				when "1100" => -- IN
+					if instr_count = 2 then
+						CONTROL_WORD_OUT <= (UWAIT => '1', others => '0');
+					elsif instr_count = 3 then
+						CONTROL_WORD_OUT <= (DI|AI => '1', others => '0');
+					else
+						CONTROL_WORD_OUT <= (others => '0');
+					end if;
+					
 				when "1101" => -- OUT
 					if instr_count = 2 then
 						CONTROL_WORD_OUT <= (AO => '1', DO => '1', others => '0');

@@ -21,6 +21,8 @@ package types is
 		II : std_logic; -- Instruction register in
 		IO : std_logic; -- Instruction register out
 		DO : std_logic; -- Display out
+		DI : std_logic; -- Data in
+		UWAIT : std_logic; -- User Wait
 	end record;
 	
 	type ws2812b_color_type is array(natural range <>) of std_logic_vector(2 downto 0);
